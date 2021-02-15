@@ -59,11 +59,13 @@ void stack<T>::shrink(size_t newCapacity)
 
     if (length > newCapacity)
     {
-        std::copy_n(&items[0], newCapacity, temp);
+        //std::copy_n(&items[0], newCapacity, temp);
+        std::move(&items[0], &items[newCapacity - 1], temp);
         length = capacity;
     }
     else
-        std::copy_n(&items[0], length, temp);
+        std::move(&items[0], &items[length - 1], temp);
+        //std::copy_n(&items[0], length, temp);
 
     capacity = newCapacity;
 
@@ -82,11 +84,12 @@ void stack<T>::expand(size_t newCapacity)
         return;
 
     std::fill_n(temp, T(), newCapacity);
-    std::copy_n(&items[0], length, temp);
+    //std::copy_n(&items[0], length, temp);
+    std::move(&items[0], &items[length - 1], temp);
+    delete[] items;
 
     capacity = newCapacity;
 
-    delete[] items;
     items = temp;
 
 
@@ -103,12 +106,14 @@ void stack<T>::allocate(size_t newCapacity)
     {
         if (length < newCapacity)
         {
-            std::copy_n(&items[0], newCapacity, temp);
+            //std::copy_n(&items[0], newCapacity, temp);
+            std::move(&items[0], &items[newCapacity - 1], temp);
         }
         else
         {
             std::fill_n(temp, newCapacity, T());
-            std::copy_n(&items[0], length, temp);
+            //std::copy_n(&items[0], length, temp);
+            std::move(&items[0], &items[length - 1], temp);
         }
 
         delete[] items;
@@ -127,6 +132,7 @@ void stack<T>::push(T item)
     if (isFull())
     {
         size_t testCapacity = capacity;
+        
         expand(capacity * GROWTH_FACTOR);
         
         if (testCapacity == capacity)

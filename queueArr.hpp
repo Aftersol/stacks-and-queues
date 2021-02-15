@@ -64,11 +64,13 @@ void queue<T>::shrink(size_t newCapacity)
 
     if (length > newCapacity)
     {
-        std::copy_n(&items[front], newCapacity, temp);
+        std::move(&items[front], &items[newCapacity - 1], temp);
+        //std::copy_n(&items[front], newCapacity, temp);
         length = capacity;
     }
     else
-        std::copy_n(&items[front], length, temp);
+        std::move(&items[front], &items[length - 1], temp);
+        //std::copy_n(&items[front], length, temp);
 
     capacity = newCapacity;
 
@@ -87,7 +89,8 @@ void queue<T>::expand(size_t newCapacity)
         return;
 
     std::fill_n(temp, newCapacity, T());
-    std::copy_n(&items[front], length, temp);
+    std::move(&items[front], &items[length - 1], temp);
+    //std::copy_n(&items[front], length, temp);
 
     capacity = newCapacity;
 
@@ -106,12 +109,14 @@ void queue<T>::allocate(size_t newCapacity)
     {
         if (length < newCapacity)
         {
-            std::copy_n(&items[front], newCapacity, temp);
+            std::move(&items[front], &items[newCapacity - 1], temp);
+            //std::copy_n(&items[front], newCapacity, temp);
         }
         else
         {
             std::fill_n(temp, newCapacity, T());
-            std::copy_n(&items[front], length, temp);
+            std::move(&items[front], &items[length - 1], temp);
+            //std::copy_n(&items[front], length, temp);
         }
 
         delete[] items;
@@ -151,13 +156,12 @@ void queue<T>::enqueue(T item)
 
     if (isFull())
     {
-        T* test = new T[capacity * GROWTH_FACTOR];
-        if (!test)
-            return;
-        else
-            delete[] test;
-
+        size_t testCapacity = capacity;
+        
         expand(capacity * GROWTH_FACTOR);
+
+        if (capacity == testCapacity)
+            return;
     }
 
     front = (front + 1) % capacity;
