@@ -189,6 +189,7 @@ stack<T>::stack(T item)
     {
         items[length++] = item;
         capacity = 1;
+        length = 1;
     }
 }
 

@@ -198,8 +198,8 @@ queue<T>::queue()
 template <class T>
 queue<T>::queue(size_t newCapacity)
 {
-    allocate(capacity);
-    length = 0, capacity = capacity;
+    allocate(newCapacity);
+    length = 0, newCapacity = capacity;
 }
 
 template <class T>
