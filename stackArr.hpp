@@ -129,10 +129,19 @@ void stack<T>::allocate(size_t newCapacity)
 template <class T>
 void stack<T>::push(T item)
 {
+    if (isEmpty())
+    {
+        if (capacity == 0 || items == nullptr)
+            allocate(1);
+
+        if (capacity == 0 || items == nullptr)
+            return;
+    }
+
     if (isFull())
     {
         size_t testCapacity = capacity;
-        
+
         expand(capacity * GROWTH_FACTOR);
         
         if (testCapacity == capacity)
