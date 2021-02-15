@@ -1,4 +1,2 @@
 # Stacks And Queues
-source code for stacks and queues
-
-Source code for stacks and queues implemented in array and linked list form
+Source code for stacks and queues implemented in array and linked list form based on the book C++ Plus Data Structures 6th Edition by Nell B. Dale.
