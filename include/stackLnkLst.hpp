@@ -38,7 +38,7 @@ bool stack<T>::isEmpty()
 template <class T>
 bool stack<T>::isFull()
 {
-    listNode<T>* test = new listNode;
+    listNode<T>* test = new listNode<T>;
     
     if (!test)
         return true;
@@ -54,7 +54,7 @@ void stack<T>::push(T item)
     if (isFull())
         return;
 
-    listNode<T>* newNode = new listNode;
+    listNode<T>* newNode = new listNode<T>;
 
     if (!newNode)
         return;
