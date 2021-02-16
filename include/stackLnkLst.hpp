@@ -55,6 +55,7 @@ void stack<T>::push(T item)
 {
     if (isFull())
         return;
+        // throw "cannot allocate more stack objects"
 
     listNode<T>* newNode = new listNode<T>;
 
@@ -88,6 +89,7 @@ T stack<T>::top()
 {
     if (end == nullptr)
         return T();
+        // throw "attempted to access empty stack"
     
     else
         return end->value;

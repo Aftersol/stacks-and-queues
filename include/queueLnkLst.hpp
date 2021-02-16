@@ -57,6 +57,7 @@ T queue<T>::peek()
 {
     if (front == nullptr)
         return T();
+        // throw "attempted to access empty queue"
     else
         return front->value;
 }
@@ -79,6 +80,7 @@ void queue<T>::enqueue(T item)
 {
     if (isFull())
         return;
+        // throw "cannot allocate more objects for queue"
     
     listNode<T>* newNode = new listNode<T>;
 

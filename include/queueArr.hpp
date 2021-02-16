@@ -67,6 +67,7 @@ void queue<T>::shrink(size_t newCapacity)
     T* temp = new T[newCapacity];
     if (!temp)
         return;
+        // throw "cannot reserve more objects for queue"
 
     if (length > newCapacity)
     {
@@ -93,6 +94,7 @@ void queue<T>::expand(size_t newCapacity)
     T* temp = new T[newCapacity];
     if (!temp)
         return;
+        // throw "cannot reserve more objects for queue"
 
     std::fill_n(temp, newCapacity, T());
     moveItems(items, temp, newCapacity);
@@ -110,6 +112,7 @@ void queue<T>::allocate(size_t newCapacity)
     T* temp = new T[newCapacity];
     if (!temp)
         return;
+        // throw "cannot reserve more objects for queue"
 
     std::fill_n(temp, newCapacity, T());
 
@@ -202,6 +205,7 @@ T queue<T>::peek()
 {
     if (isEmpty())
         return T();
+        // throw "attempted to access empty queue"
 
     return items[front]; 
 }
@@ -216,6 +220,7 @@ void queue<T>::enqueue(T item)
 
         if (capacity == 0 || items == nullptr)
             return;
+            // throw "cannot reserve more objects for queue"
     }
 
     if (isFull())

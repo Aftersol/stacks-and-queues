@@ -59,6 +59,7 @@ void stack<T>::shrink(size_t newCapacity)
     T* temp = new T[newCapacity];
     if (!newCapacity)
         return;
+        // throw "cannot allocate objects for stack"
 
     if (length > newCapacity)
     {
@@ -85,6 +86,7 @@ void stack<T>::expand(size_t newCapacity)
     T* temp = new T[newCapacity];
     if (!newCapacity)
         return;
+        // throw "cannot allocate more objects for stack"
 
     std::fill_n(temp, newCapacity, T());
     //std::copy_n(&items[0], length, temp);
@@ -104,6 +106,7 @@ void stack<T>::allocate(size_t newCapacity)
     T* temp = new T[newCapacity];
     if (!newCapacity)
         return;
+        // throw "cannot allocate more objects for stack"
 
     if (!isEmpty())
     {
@@ -139,6 +142,7 @@ void stack<T>::push(T item)
 
         if (capacity == 0 || items == nullptr)
             return;
+            // throw "cannot reserve more objects for stack"
     }
 
     if (isFull())
@@ -168,6 +172,7 @@ T stack<T>::top()
 {
     if (isEmpty())
         return T();
+        // throw "attempted to access empty stack"
 
     return items[length - 1];
 
@@ -189,6 +194,7 @@ stack<T>::stack(T item)
     T* items = new T[1];
     if (!items)
         return;
+        // throw "cannot allocate more objects for stack"
     
     else
     {
