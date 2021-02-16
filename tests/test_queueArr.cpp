@@ -43,7 +43,7 @@ TEST_CASE("Deallocate Test")
 
     for (int i = 0; i < 100; i++)
     {
-        a.dequeue(i);
+        a.dequeue();
     }
 
     REQUIRE(a.peek() == 100);
@@ -63,7 +63,7 @@ TEST_CASE("Overlap Test")
 
     for (int i = 0; i < 100; i++)
     {
-        a.dequeue(i);
+        a.dequeue();
     }
 
     for (int i = 0; i < 4; i++)
@@ -76,6 +76,6 @@ TEST_CASE("Overlap Test")
 
     for (int i = 0; i < 17; i++)
     {
-        a.dequeue(i);
+        a.dequeue();
     }
 }
