@@ -23,6 +23,8 @@ public:
     bool isEmpty();
     bool isFull();
 
+    size_t size() const { return length; }
+
     void push(T item);
     void pop();
 
@@ -32,7 +34,7 @@ public:
 template <class T>
 bool stack<T>::isEmpty()
 {
-    return (end == nullptr || length = 0);
+    return (end == nullptr || length == 0);
 }
 
 template <class T>

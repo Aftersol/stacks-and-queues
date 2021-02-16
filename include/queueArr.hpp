@@ -70,7 +70,7 @@ void queue<T>::shrink(size_t newCapacity)
 
     if (length > newCapacity)
     {
-        std::move(&items[front], &items[newCapacity - 1], temp);
+        std::move(&items[front], &items[newCapacity], temp);
         //std::copy_n(&items[front], newCapacity, temp);
         length = capacity;
     }
@@ -117,7 +117,7 @@ void queue<T>::allocate(size_t newCapacity)
     {
         if (length < newCapacity)
         {
-            std::move(&items[front], &items[newCapacity - 1], temp);
+            std::move(&items[front], &items[newCapacity], temp);
             //std::copy_n(&items[front], newCapacity, temp);
         }
         else
@@ -183,7 +183,7 @@ void queue<T>::moveItems(T* origin, T* dest, size_t newCapacity)
         }
         else
         {
-            std::move(&origin[front], &origin[rear+1], dest);
+            std::move(&origin[front], &origin[rear + 1], dest);
             front = 0, rear = length - 1;
         }
 
