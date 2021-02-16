@@ -39,7 +39,7 @@ public:
     void makeEmpty();
     
     void enqueue(T item);
-    void dequeue(T item);
+    void dequeue();
     
     queue();
     queue(size_t newCapacity);
@@ -236,11 +236,12 @@ void queue<T>::enqueue(T item)
 }
 
 template <class T>
-void queue<T>::dequeue(T item)
+void queue<T>::dequeue()
 {
     if (isEmpty())
         return;
 
+    items[front].~T();
     front = (front + 1) % capacity;
     
     length--;
