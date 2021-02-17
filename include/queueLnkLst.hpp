@@ -65,6 +65,9 @@ T queue<T>::peek()
 template <class T>
 void queue<T>::makeEmpty()
 {
+    if (front == nullptr)
+        return;
+
     while (front != nullptr)
     {
         listNode<T>* temp = front;
@@ -86,6 +89,7 @@ void queue<T>::enqueue(T item)
 
     if (!newNode)
         return;
+        // throw "cannot allocate space for placing an item"
 
     newNode->value = item;
 

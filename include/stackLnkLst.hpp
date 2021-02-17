@@ -97,7 +97,7 @@ T stack<T>::top()
 
 
 template <class T>
-stack<T>::stack(/* args */)
+stack<T>::stack()
 {
     end = nullptr;
     length = 0;

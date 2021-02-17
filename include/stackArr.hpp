@@ -4,7 +4,8 @@
 #ifndef STACK_HPP
 #define STACK_HPP
 
-#define GROWTH_FACTOR 2
+#define GROWTH_FACTOR 2 // THIS GROWTH EXPONENT FACTOR IS CHOSEN TO MINIMIZE PERFORMANCE LOSS BECAUSE
+                        // OF MEMORY ALLOCATION: https://en.wikipedia.org/wiki/Dynamic_array#Growth_factor
 
 #include <algorithm>
 #include <cstdint>
@@ -15,6 +16,8 @@ class stack
 private:
     size_t length, capacity;
     T* items;
+
+    // Functions for automatic resizing of the stack
 
     void shrink(size_t newCapacity);
     void expand(size_t newCapacity);
@@ -153,6 +156,7 @@ void stack<T>::push(T item)
         
         if (testCapacity == capacity)
             return;
+            // throw "cannot reserve more objects for stack"
     }
 
     items[length++] = item;
@@ -161,6 +165,9 @@ void stack<T>::push(T item)
 template <class T>
 void stack<T>::pop()
 {
+    if (isEmpty())
+        return;
+
     items[--length] = T();
 
     if (length < capacity / GROWTH_FACTOR)

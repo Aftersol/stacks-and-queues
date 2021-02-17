@@ -5,38 +5,46 @@
 #ifndef QUEUE_HPP
 #define QUEUE_HPP
 
-#define GROWTH_FACTOR 2
+#define GROWTH_FACTOR 2 // THIS GROWTH EXPONENT FACTOR IS CHOSEN TO MINIMIZE PERFORMANCE LOSS BECAUSE
+                        // OF MEMORY ALLOCATION: https://en.wikipedia.org/wiki/Dynamic_array#Growth_factor
 
 #include <algorithm>
-#include <limits>
 #include <cstdint>
 
 template <class T>
 class queue
 {
 private:
-    size_t front, rear, length;
-    size_t capacity;
+    // Store the position of the front and rear respectively for the queue
+
+    size_t front, rear;
+
+    // Store the maximum size of the queue and the amount of objects on the queue
+
+    size_t length, capacity;
     
+    // An array of class objects
     T* items;
+
+    // Functions used for automatic resizing of the queue
 
     void shrink(size_t newCapacity);
     void expand(size_t newCapacity);
     void allocate(size_t newCapacity);
 
-    void moveItems(T* origin, T* dest, size_t newCapacity);
+    void moveItems(T* origin, T* dest, size_t len);
 
 public:
 
-    bool isEmpty();
-    bool isFull();
+    bool isEmpty(); // No objects in the array?
+    bool isFull(); // Array filled up?
 
-    size_t size() const { return length; }
-    size_t getCapacity() { return capacity; }
+    size_t size() const { return length; } // How many objects in the array
+    size_t getCapacity() { return capacity; } // Maximum amount of objects that can be in the array
 
     T peek();
 
-    void makeEmpty();
+    void makeEmpty(); // Destroys all the objects in the queue.
     
     void enqueue(T item);
     void dequeue();
@@ -120,7 +128,7 @@ void queue<T>::allocate(size_t newCapacity)
     {
         if (length < newCapacity)
         {
-            std::move(&items[front], &items[newCapacity], temp);
+            moveItems(items, temp, length);
             //std::copy_n(&items[front], newCapacity, temp);
         }
         else
@@ -141,16 +149,16 @@ void queue<T>::allocate(size_t newCapacity)
 }
 
 template <class T>
-void queue<T>::moveItems(T* origin, T* dest, size_t newCapacity)
+void queue<T>::moveItems(T* origin, T* dest, size_t len)
 {
     if (origin == nullptr || dest == nullptr)
         return;
 
-    const bool greater = (length > newCapacity);
+    const bool greater = (length > len); // Is the length greater than what it is trying to move?
+                                         // Copying "len" objects from an original array will when the length is less than "len" will lead
+                                         // to a loss of objects in the queue.
 
-    // code that moves only front
-
-    if (front > rear)
+    if (front > rear) // Did the position of the rear wrap around?
     {
         size_t rearPos = capacity - front;
         
@@ -159,13 +167,13 @@ void queue<T>::moveItems(T* origin, T* dest, size_t newCapacity)
 
         if (greater)
         {
-            const size_t f = newCapacity - front;
+            const size_t f = len - front;
             const size_t difference = length - f;
             const size_t r = (rear - difference);
             
             std::move(&origin[front], &origin[capacity], dest);
             std::move(&origin[0], &origin[rear - r + 1], &dest[rearPos]);
-            front = 0, rear = newCapacity - 1;
+            front = 0, rear = len - 1;
         }
         else
         {
@@ -179,7 +187,7 @@ void queue<T>::moveItems(T* origin, T* dest, size_t newCapacity)
     {
         if (greater)
         {
-            const size_t difference = length - newCapacity;
+            const size_t difference = length - len;
             const size_t r = rear - difference;
             std::move(&origin[front], &origin[rear - r + 1], dest);
             front = 0, rear -= r;
@@ -194,9 +202,10 @@ void queue<T>::moveItems(T* origin, T* dest, size_t newCapacity)
 }
 
 template <class T>
-void queue<T>::makeEmpty()
+void queue<T>::makeEmpty() // Destroys all the objects in the queue
 {
-    delete[] items;
+    if (items)
+        delete[] items;
     length = 0, capacity = 0, front = 0, rear = -1;
 }
 
@@ -258,7 +267,7 @@ void queue<T>::dequeue()
 template <class T>
 queue<T>::queue()
 {
-    length = 0, capacity = 0, front = 0, rear = std::numeric_limits<size_t>::max();
+    length = 0, capacity = 0, front = 0, rear = -1;
     items = nullptr;
 }
 
