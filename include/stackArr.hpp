@@ -27,6 +27,7 @@ public:
 
     bool isEmpty();
     bool isFull();
+    bool hasAnArray();
 
     size_t size() const { return length; }
     size_t getCapacity() const { return capacity; }
@@ -44,7 +45,7 @@ public:
 template <class T>
 bool stack<T>::isEmpty()
 {
-    return (items == nullptr || length == 0 || capacity == 0);
+    return (length == 0 || hasAnArray());
 }
 
 template <class T>
@@ -54,11 +55,18 @@ bool stack<T>::isFull()
 }
 
 template <class T>
+bool stack<T>::hasAnArray()
+{
+    return !(items == nullptr || capacity == 0);
+}
+
+template <class T>
 void stack<T>::shrink(size_t newCapacity)
 {
     if (items == nullptr)
         return;
     
+    //allocate(newCapacity);
     T* temp = new T[newCapacity];
     if (!newCapacity)
         return;
@@ -75,9 +83,6 @@ void stack<T>::shrink(size_t newCapacity)
         //std::copy_n(&items[0], length, temp);
 
     capacity = newCapacity;
-
-    delete[] items;
-    items = temp;
 }
 
 template <class T>
@@ -86,6 +91,8 @@ void stack<T>::expand(size_t newCapacity)
     if (items == nullptr)
         return;
     
+    //allocate(newCapacity);
+
     T* temp = new T[newCapacity];
     if (!newCapacity)
         return;
@@ -140,10 +147,10 @@ void stack<T>::push(T item)
 {
     if (isEmpty())
     {
-        if (capacity == 0 || items == nullptr)
+        if (hasAnArray()) // Allocate one if there is no array
             allocate(1);
 
-        if (capacity == 0 || items == nullptr)
+        if (hasAnArray())
             return;
             // throw "cannot reserve more objects for stack"
     }
@@ -198,8 +205,10 @@ stack<T>::stack(T item)
     length = 0;
     capacity = 0;
 
-    T* items = new T[1];
-    if (!items)
+    // Initalize the stack
+
+    allocate(1);
+    if (!hasAnArray())
         return;
         // throw "cannot allocate more objects for stack"
     

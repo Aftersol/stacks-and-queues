@@ -17,7 +17,7 @@ private:
 
     listNode<T>* end;
 public:
-    stack(/* args */);
+    stack();
     ~stack();
 
     bool isEmpty();
@@ -87,7 +87,7 @@ void stack<T>::pop()
 template <class T>
 T stack<T>::top()
 {
-    if (end == nullptr)
+    if (isEmpty())
         return T();
         // throw "attempted to access empty stack"
     
